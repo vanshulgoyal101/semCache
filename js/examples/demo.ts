@@ -11,7 +11,7 @@ async function runDemo() {
   // Create SemCache instance
   const cache = new SemCache({
     store: new FileStore(cacheFile),
-    semanticThreshold: 0.85,
+    semanticThreshold: 0.70,
     fuzzyThreshold: 0.95,
   });
 

@@ -45,7 +45,7 @@ export class SemCache {
   constructor(config: SemCacheConfig = {}) {
     this.store = config.store || new MemoryStore();
     this.fuzzyThreshold = config.fuzzyThreshold ?? 0.95;
-    this.semanticThreshold = config.semanticThreshold ?? 0.88;
+    this.semanticThreshold = config.semanticThreshold ?? 0.70;
     this.enableTelemetry = config.enableTelemetry ?? true;
     this.embeddingEngine = new EmbeddingEngine({
       modelName: config.modelName,

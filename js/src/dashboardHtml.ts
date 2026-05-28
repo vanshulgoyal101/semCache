@@ -418,7 +418,7 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
         
         <div class="form-group">
           <label>Quick Presets</label>
-          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <div id="preset-buttons-container" style="display: flex; flex-wrap: wrap; gap: 8px;">
             <button class="badge badge-tier1" style="cursor: pointer; border: 1px solid #bfdbfe; font-family: inherit; font-size: 11px;" onclick="setPreset('What is the capital of France?')">Exact (Tier 1)</button>
             <button class="badge badge-tier2" style="cursor: pointer; border: 1px solid #fde68a; font-family: inherit; font-size: 11px;" onclick="setPreset('What is the capital of France ?')">Fuzzy (Tier 2)</button>
             <button class="badge badge-tier3" style="cursor: pointer; border: 1px solid #bfdbfe; font-family: inherit; font-size: 11px;" onclick="setPreset('Tell me the capital city of France')">Semantic (Tier 3)</button>
@@ -452,6 +452,57 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
     let cacheEntries = [];
     let stats = {};
     let hitsChart = null;
+
+    const PRESET_TEMPLATES = {
+      'what is the capital of france': {
+        exact: 'What is the capital of France?',
+        fuzzy: 'What is the capital of France ?',
+        semantic: 'Tell me the capital city of France',
+        miss: 'Who painted the Mona Lisa?'
+      },
+      'how do i center a div in css': {
+        exact: 'How do I center a div in CSS?',
+        fuzzy: 'How do I center a div CSS',
+        semantic: 'centering a div element using flexbox css',
+        miss: 'What is the deep ocean zone called?'
+      },
+      'explain quantum computing in simple terms': {
+        exact: 'Explain quantum computing in simple terms',
+        fuzzy: 'Explain quantum computing in simple terms !',
+        semantic: 'Explain how quantum computers work simply',
+        miss: 'Who is the Prime Minister of Canada?'
+      },
+      'what is the speed of light': {
+        exact: 'What is the speed of light?',
+        fuzzy: 'What is the speed of light ?',
+        semantic: 'velocity of light in a vacuum',
+        miss: 'How deep is the Mariana Trench?'
+      },
+      'how many bones are in the human body': {
+        exact: 'How many bones are in the human body?',
+        fuzzy: 'How many bones are in the human body ?',
+        semantic: 'human skeleton bone count',
+        miss: 'What is the capital of Australia?'
+      },
+      'explain the difference between sql and nosql databases': {
+        exact: 'Explain the difference between SQL and NoSQL databases.',
+        fuzzy: 'Explain the difference between SQL and NoSQL databases',
+        semantic: 'sql database vs nosql database differences',
+        miss: 'What is the population of Tokyo?'
+      },
+      'what is the recipe for chocolate chip cookies': {
+        exact: 'What is the recipe for chocolate chip cookies?',
+        fuzzy: 'What is the recipe for chocolate chip cookies ?',
+        semantic: 'how to bake chocolate chip cookies',
+        miss: 'How many states are in the USA?'
+      },
+      'how does javascript handle asynchronous code execution': {
+        exact: 'How does JavaScript handle asynchronous code execution?',
+        fuzzy: 'How does JavaScript handle asynchronous code execution ?',
+        semantic: 'javascript event loop async flow',
+        miss: 'Who directed the movie Inception?'
+      }
+    };
 
     // Vector Visualization Variables
     const canvas = document.getElementById('vectorCanvas');
@@ -552,6 +603,20 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
         \`;
         listEl.appendChild(item);
       });
+
+      // Update preset buttons based on current cache entries context
+      const matchingEntry = cacheEntries.find(e => PRESET_TEMPLATES[e.normalizedQuery]);
+      const template = matchingEntry ? PRESET_TEMPLATES[matchingEntry.normalizedQuery] : PRESET_TEMPLATES['what is the capital of france'];
+      
+      const containerEl = document.getElementById('preset-buttons-container');
+      if (containerEl) {
+        containerEl.innerHTML = \`
+          <button class="badge badge-tier1" style="cursor: pointer; border: 1px solid #bfdbfe; font-family: inherit; font-size: 11px;" onclick="setPreset('\${template.exact.replace(/'/g, "\\\\'")}')">Exact (Tier 1)</button>
+          <button class="badge badge-tier2" style="cursor: pointer; border: 1px solid #fde68a; font-family: inherit; font-size: 11px;" onclick="setPreset('\${template.fuzzy.replace(/'/g, "\\\\'")}')">Fuzzy (Tier 2)</button>
+          <button class="badge badge-tier3" style="cursor: pointer; border: 1px solid #bfdbfe; font-family: inherit; font-size: 11px;" onclick="setPreset('\${template.semantic.replace(/'/g, "\\\\'")}')">Semantic (Tier 3)</button>
+          <button class="badge badge-miss" style="cursor: pointer; border: 1px solid #fecaca; font-family: inherit; font-size: 11px;" onclick="setPreset('\${template.miss.replace(/'/g, "\\\\'")}')">New Miss (Tier 4)</button>
+        \`;
+      }
     }
 
     function updateCharts() {
