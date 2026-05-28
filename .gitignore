@@ -1,0 +1,19 @@
+# Node.js
+node_modules/
+dist/
+*.log
+.semcache/
+
+# Python
+__pycache__/
+*.pyc
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+.env
+
+# OS
+.DS_Store

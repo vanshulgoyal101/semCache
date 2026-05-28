@@ -1,0 +1,41 @@
+{
+  "name": "semcache",
+  "version": "1.0.0",
+  "description": "Zero-cost, low-latency tiered semantic caching SDK for LLMs running local embeddings.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "demo": "tsx examples/demo.ts",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "llm",
+    "semantic-cache",
+    "embeddings",
+    "onnx",
+    "transformers",
+    "cache",
+    "openai",
+    "cost-saving"
+  ],
+  "author": "Antigravity",
+  "license": "MIT",
+  "dependencies": {
+    "@huggingface/transformers": "^3.0.0-alpha.18"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.7.0",
+    "vitest": "^1.2.0"
+  }
+}
