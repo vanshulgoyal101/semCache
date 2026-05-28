@@ -355,6 +355,9 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
       <div class="logo-badge">Developer Console</div>
     </div>
     <div class="controls">
+      <button class="btn" style="border-color: rgba(37,99,235,0.3); color: var(--accent);" onclick="generateRandomCache()">
+        Generate Random Cache
+      </button>
       <button class="btn" onclick="fetchData()">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H18"></path></svg>
         Refresh
@@ -484,6 +487,22 @@ export const DASHBOARD_HTML = `<!DOCTYPE html>
       if (confirm("Are you sure you want to clear the semantic cache?")) {
         await fetch('/api/clear', { method: 'POST' });
         fetchData();
+      }
+    }
+
+    async function generateRandomCache() {
+      const btn = document.querySelector('button[onclick="generateRandomCache()"]');
+      const originalText = btn.innerText;
+      btn.innerText = "Seeding...";
+      btn.disabled = true;
+      try {
+        await fetch('/api/seed', { method: 'POST' });
+        await fetchData();
+      } catch (err) {
+        console.error("Failed to seed cache:", err);
+      } finally {
+        btn.innerText = originalText;
+        btn.disabled = false;
       }
     }
 

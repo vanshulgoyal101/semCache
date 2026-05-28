@@ -135,6 +135,50 @@ export class DevDashboardServer {
         return;
       }
 
+      // Route 5: Seed cache with random entries
+      if (url === '/api/seed' && method === 'POST') {
+        try {
+          const sampleQueries = [
+            {
+              query: 'What is the speed of light?',
+              response: 'The speed of light in a vacuum is exactly 299,792,458 meters per second (approx. 300,000 km/s or 186,000 miles per second).',
+              meta: { latencyMs: 1350, tokenUsage: { promptTokens: 6, completionTokens: 25 }, tags: ['physics', 'science'] }
+            },
+            {
+              query: 'How many bones are in the human body?',
+              response: 'An adult human body has 206 bones, while infants are born with around 270 bones which fuse together over time.',
+              meta: { latencyMs: 1480, tokenUsage: { promptTokens: 8, completionTokens: 24 }, tags: ['biology', 'science'] }
+            },
+            {
+              query: 'Explain the difference between SQL and NoSQL databases.',
+              response: 'SQL databases are relational, table-based, and have structured schemas. NoSQL databases are non-relational, document/key-value/graph-based, and have dynamic schemas for unstructured data.',
+              meta: { latencyMs: 1950, tokenUsage: { promptTokens: 9, completionTokens: 35 }, tags: ['databases', 'coding'] }
+            },
+            {
+              query: 'What is the recipe for chocolate chip cookies?',
+              response: 'Classic chocolate chip cookies require creaming butter, white and brown sugar, adding eggs and vanilla extract, mixing in flour, baking soda, salt, and finally folding in chocolate chips. Bake at 375°F (190°C) for 9-11 minutes.',
+              meta: { latencyMs: 2200, tokenUsage: { promptTokens: 8, completionTokens: 45 }, tags: ['cooking', 'lifestyle'] }
+            },
+            {
+              query: 'How does JavaScript handle asynchronous code execution?',
+              response: 'JavaScript handles asynchrony using an event loop, call stack, callback queue, and APIs. Operations like fetches are offloaded, and callbacks/promises are executed once the stack is empty.',
+              meta: { latencyMs: 1850, tokenUsage: { promptTokens: 8, completionTokens: 30 }, tags: ['coding', 'javascript'] }
+            }
+          ];
+
+          for (const item of sampleQueries) {
+            await this.cache.set(item.query, item.response, item.meta);
+          }
+
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true }));
+        } catch (err) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: (err as Error).message }));
+        }
+        return;
+      }
+
       // Default: 404 Not Found
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Not Found' }));
