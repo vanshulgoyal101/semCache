@@ -5,7 +5,7 @@ Zero-cost, low-latency tiered semantic caching SDK for LLMs running local embedd
 ## Installation
 
 ```bash
-pip install semcache
+pip install semc
 ```
 
 ## Quick Start

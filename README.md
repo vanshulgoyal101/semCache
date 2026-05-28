@@ -40,7 +40,7 @@ SemCache is distributed as native SDKs for the two major AI development ecosyste
 | SDK Package | Language | Key Features | Quick Start |
 | :--- | :--- | :--- | :--- |
 | **[`semcache-js`](./js)** | JavaScript / TypeScript | Node & Browser support, built-in Vercel/Stripe-styled **Real-time Dev Dashboard** with a force-directed vector space simulator. | `npm install semcache` |
-| **[`vanshulgoyal101-semcache`](./python)** | Python (3.8+) | Built for FastAPI, LangChain, and LlamaIndex. Powered by `sentence-transformers`. | `pip install vanshulgoyal101-semcache` |
+| **[`semc`](./python)** | Python (3.8+) | Built for FastAPI, LangChain, and LlamaIndex. Powered by `sentence-transformers`. | `pip install semc` |
 
 ---
 
